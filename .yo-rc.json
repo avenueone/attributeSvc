@@ -1,0 +1,43 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "org.avenue1.attribute",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "5.6.1",
+    "applicationType": "microservice",
+    "baseName": "attributeSvc",
+    "packageName": "org.avenue1.attribute",
+    "packageFolder": "org/avenue1/attribute",
+    "serverPort": "8100",
+    "authenticationType": "jwt",
+    "cacheProvider": "hazelcast",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "mongodb",
+    "devDatabaseType": "mongodb",
+    "prodDatabaseType": "mongodb",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "MjM0NmUzMTVlZjllMmI0MjZjMjJlMzM5YTM5OTA4OGY4N2RlNWJkNDVhMmU0NzM0YjUzNzYzMWJhNzA4MjRhODY3MzNhNjQ5ZjgyYWE0YTViNTc3NjNlNTM0NTQ2Zjc2ZjI3NTc4N2RkOGZkNjUxOGE3ZDM5ODVhOWZhNTViMzc=",
+    "testFrameworks": [
+      "gatling",
+      "cucumber"
+    ],
+    "jhiPrefix": "jhi",
+    "enableTranslation": true,
+    "clientPackageManager": "npm",
+    "nativeLanguage": "en",
+    "languages": [
+      "en",
+      "fr",
+      "de",
+      "es"
+    ],
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}

@@ -1,0 +1,32 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "attributeSvc",
+    "relationships": [
+        {
+            "relationshipName": "attribute",
+            "otherEntityName": "attribute",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "attributeValue"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "value",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "active",
+            "fieldType": "Boolean"
+        }
+    ],
+    "dto": "no",
+    "searchEngine": false,
+    "service": "serviceClass",
+    "entityTableName": "attribute_value",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination",
+    "microserviceName": "attributeSvc"
+}
