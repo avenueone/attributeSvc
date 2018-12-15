@@ -3,6 +3,7 @@ package org.avenue1.attribute.web.rest;
 import org.avenue1.attribute.AttributeSvcApp;
 
 import org.avenue1.attribute.domain.EntityType;
+import org.avenue1.attribute.enums.EntityTypeEnum;
 import org.avenue1.attribute.repository.EntityTypeRepository;
 import org.avenue1.attribute.service.EntityTypeService;
 import org.avenue1.attribute.web.rest.errors.ExceptionTranslator;
@@ -40,6 +41,7 @@ public class EntityTypeResourceIntTest {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
+    private static final EntityTypeEnum UPDATED_TYPE = EntityTypeEnum.CALENDAR;
 
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
@@ -85,7 +87,7 @@ public class EntityTypeResourceIntTest {
      */
     public static EntityType createEntity() {
         EntityType entityType = new EntityType()
-            .name(DEFAULT_NAME)
+            .type(UPDATED_TYPE)
             .description(DEFAULT_DESCRIPTION)
             .service(DEFAULT_SERVICE);
         return entityType;
@@ -111,7 +113,7 @@ public class EntityTypeResourceIntTest {
         List<EntityType> entityTypeList = entityTypeRepository.findAll();
         assertThat(entityTypeList).hasSize(databaseSizeBeforeCreate + 1);
         EntityType testEntityType = entityTypeList.get(entityTypeList.size() - 1);
-        assertThat(testEntityType.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testEntityType.getType()).isEqualTo(DEFAULT_NAME);
         assertThat(testEntityType.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testEntityType.getService()).isEqualTo(DEFAULT_SERVICE);
     }
@@ -138,7 +140,7 @@ public class EntityTypeResourceIntTest {
     public void checkNameIsRequired() throws Exception {
         int databaseSizeBeforeTest = entityTypeRepository.findAll().size();
         // set the field null
-        entityType.setName(null);
+        entityType.setType(null);
 
         // Create the EntityType, which fails.
 
@@ -198,7 +200,7 @@ public class EntityTypeResourceIntTest {
         // Update the entityType
         EntityType updatedEntityType = entityTypeRepository.findById(entityType.getId()).get();
         updatedEntityType
-            .name(UPDATED_NAME)
+            .type(EntityTypeEnum.CALENDAR)
             .description(UPDATED_DESCRIPTION)
             .service(UPDATED_SERVICE);
 
@@ -211,7 +213,7 @@ public class EntityTypeResourceIntTest {
         List<EntityType> entityTypeList = entityTypeRepository.findAll();
         assertThat(entityTypeList).hasSize(databaseSizeBeforeUpdate);
         EntityType testEntityType = entityTypeList.get(entityTypeList.size() - 1);
-        assertThat(testEntityType.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testEntityType.getType()).isEqualTo(UPDATED_NAME);
         assertThat(testEntityType.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testEntityType.getService()).isEqualTo(UPDATED_SERVICE);
     }

@@ -77,17 +77,7 @@ public class AttributeValue implements Serializable {
         return this;
     }
 
-    public AttributeValue addAttribute(Attribute attribute) {
-        this.attributes.add(attribute);
-        attribute.setAttributeValue(this);
-        return this;
-    }
 
-    public AttributeValue removeAttribute(Attribute attribute) {
-        this.attributes.remove(attribute);
-        attribute.setAttributeValue(null);
-        return this;
-    }
 
     public void setAttributes(Set<Attribute> attributes) {
         this.attributes = attributes;

@@ -61,6 +61,11 @@ public class Attribute implements Serializable {
     @JsonIgnore
     private Set<EntityType> entityTypes = new HashSet<>();
 
+    @DBRef
+    @Field("attributeValues")
+    @JsonIgnore
+    private Set<AttributeValue> attributeValues = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
         return id;
@@ -181,6 +186,26 @@ public class Attribute implements Serializable {
     public Attribute mandatory(Boolean mandatory) {
         this.mandatory = mandatory;
         return this;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public Boolean getHasValidValues() {
+        return hasValidValues;
+    }
+
+    public Boolean getMandatory() {
+        return mandatory;
+    }
+
+    public Set<AttributeValue> getAttributeValues() {
+        return attributeValues;
+    }
+
+    public void setAttributeValues(Set<AttributeValue> attributeValues) {
+        this.attributeValues = attributeValues;
     }
 
     public void setMandatory(Boolean mandatory) {

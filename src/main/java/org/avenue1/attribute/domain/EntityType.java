@@ -1,5 +1,8 @@
 package org.avenue1.attribute.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.avenue1.attribute.domain.enumeration.DataTypeEnum;
+import org.avenue1.attribute.enums.EntityTypeEnum;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -7,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * A EntityType.
@@ -21,14 +24,19 @@ public class EntityType implements Serializable {
     private String id;
 
     @NotNull
-    @Field("name")
-    private String name;
+    @Field("type")
+    private EntityTypeEnum type;
 
     @Field("description")
     private String description;
 
     @Field("service")
     private String service;
+
+    @DBRef
+    @Field("attributes")
+    @JsonIgnore
+    private Set<Attribute> attributes = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
@@ -39,17 +47,19 @@ public class EntityType implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public EntityTypeEnum getType() {
+        return type;
     }
 
-    public EntityType name(String name) {
-        this.name = name;
+    public EntityType type(EntityTypeEnum type) {
+        this.type = type;
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
+
+
+    public void setType(EntityTypeEnum type) {
+        this.type = type;
     }
 
     public String getDescription() {
@@ -101,11 +111,20 @@ public class EntityType implements Serializable {
 
     @Override
     public String toString() {
-        return "EntityType{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", service='" + getService() + "'" +
-            "}";
+        return new StringJoiner(", ", EntityType.class.getSimpleName() + "[", "]")
+            .add("id='" + id + "'")
+            .add("type=" + type)
+            .add("description='" + description + "'")
+            .add("service='" + service + "'")
+            .add("attributes=" + attributes)
+            .toString();
+    }
+
+    public Set<Attribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Set<Attribute> attributes) {
+        this.attributes = attributes;
     }
 }
