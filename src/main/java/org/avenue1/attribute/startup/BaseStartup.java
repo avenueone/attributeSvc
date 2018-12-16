@@ -2,6 +2,8 @@ package org.avenue1.attribute.startup;
 
 import org.avenue1.attribute.domain.EntityType;
 import org.avenue1.attribute.enums.EntityTypeEnum;
+import org.avenue1.attribute.repository.AttributeRepository;
+import org.avenue1.attribute.repository.AttributeValueRepository;
 import org.avenue1.attribute.repository.EntityTypeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,12 @@ public abstract class BaseStartup {
     @Autowired
     protected EntityTypeRepository entityTypeRepository;
 
+    @Autowired
+    protected AttributeRepository attributeRepository;
+
+    @Autowired
+    protected AttributeValueRepository attributeValueRepository;
+
     public BaseStartup() {
 
 
@@ -36,9 +44,14 @@ public abstract class BaseStartup {
 
             log.debug("Checking type {} - {}", type.name(), bundle.getString(type.name()));
 
-           entityTypeRepository.findAll();
-            EntityType entityType = new EntityType().type(type).description(bundle.getString(type.name()));
-            entityTypeRepository.save(entityType);
+           if (! entityTypeRepository.findByType(type).isPresent() ) {
+               EntityType entityType = new EntityType().type(type).description(bundle.getString(type.name()));
+               entityTypeRepository.save(entityType);
+           } else {
+               log.debug("Already present {}", type.name());
+           }
+
+
         }
     }
 }

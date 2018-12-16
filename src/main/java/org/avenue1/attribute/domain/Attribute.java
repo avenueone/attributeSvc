@@ -40,6 +40,10 @@ public class Attribute implements Serializable {
     @Field("active")
     private Boolean active;
 
+
+    @Field("template")
+    private String template;
+
     @Field("has_valid_values")
     private Boolean hasValidValues;
 
@@ -56,6 +60,7 @@ public class Attribute implements Serializable {
     @Field("mandatory")
     private Boolean mandatory;
 
+    @NotEmpty
     @DBRef
     @Field("entityTypes")
     @JsonIgnore
@@ -123,6 +128,8 @@ public class Attribute implements Serializable {
         return this;
     }
 
+
+
     public void setActive(Boolean active) {
         this.active = active;
     }
@@ -188,6 +195,14 @@ public class Attribute implements Serializable {
         return this;
     }
 
+    public String getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
     public Boolean getActive() {
         return active;
     }
@@ -218,6 +233,16 @@ public class Attribute implements Serializable {
 
     public Attribute entityTypes(Set<EntityType> entityTypes) {
         this.entityTypes = entityTypes;
+        return this;
+    }
+
+    public Attribute template(String template) {
+        this.template = template;
+        return this;
+    }
+
+    public Attribute addAttributeValue(AttributeValue value) {
+        this.getAttributeValues().add(value);
         return this;
     }
 

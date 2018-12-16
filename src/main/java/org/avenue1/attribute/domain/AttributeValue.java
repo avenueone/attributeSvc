@@ -32,7 +32,8 @@ public class AttributeValue implements Serializable {
 
     @DBRef
     @Field("attribute")
-    private Set<Attribute> attributes = new HashSet<>();
+    private Attribute attribute;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
         return id;
@@ -64,23 +65,27 @@ public class AttributeValue implements Serializable {
         return this;
     }
 
+
+
     public void setActive(Boolean active) {
         this.active = active;
     }
 
-    public Set<Attribute> getAttributes() {
-        return attributes;
+    public Attribute getAttribute() {
+        return attribute;
     }
 
-    public AttributeValue attributes(Set<Attribute> attributes) {
-        this.attributes = attributes;
+    public AttributeValue attribute(Attribute attribute) {
+        this.attribute = attribute;
         return this;
     }
 
+    public Boolean getActive() {
+        return active;
+    }
 
-
-    public void setAttributes(Set<Attribute> attributes) {
-        this.attributes = attributes;
+    public void setAttribute(Attribute attribute) {
+        this.attribute = attribute;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

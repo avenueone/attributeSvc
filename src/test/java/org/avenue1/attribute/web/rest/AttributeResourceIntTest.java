@@ -124,6 +124,8 @@ public class AttributeResourceIntTest {
         attribute = createEntity();
     }
 
+
+
     @Test
     public void createAttribute() throws Exception {
         int databaseSizeBeforeCreate = attributeRepository.findAll().size();
@@ -172,6 +174,23 @@ public class AttributeResourceIntTest {
         int databaseSizeBeforeTest = attributeRepository.findAll().size();
         // set the field null
         attribute.setName(null);
+
+        // Create the Attribute, which fails.
+
+        restAttributeMockMvc.perform(post("/api/attributes")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(attribute)))
+            .andExpect(status().isBadRequest());
+
+        List<Attribute> attributeList = attributeRepository.findAll();
+        assertThat(attributeList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    public void checkEntityTypeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = attributeRepository.findAll().size();
+        // set the field null
+        attribute.getEntityTypes().clear();
 
         // Create the Attribute, which fails.
 
