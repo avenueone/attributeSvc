@@ -1,6 +1,7 @@
 package org.avenue1.attribute.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -71,7 +72,7 @@ public class Attribute implements Serializable {
 
     @DBRef
     @Field("attributeValues")
-    @JsonIgnore
+    @JsonIgnoreProperties({ "attribute" })
     private Set<AttributeValue> attributeValues = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

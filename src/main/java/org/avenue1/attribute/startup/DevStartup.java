@@ -44,15 +44,15 @@ public class DevStartup extends BaseStartup {
                         sample = attributeRepository.save(sample);
 
                         for (int i = 0; i < 10; i++) {
-                            String value = "attr val " + i;
+                            String value = type.name() + " attr val " + i;
                             Optional<AttributeValue> attributeValue = attributeValueRepository.findByAttributeAndValue(sample, value);
                             if (attributeValue.isPresent()) {
                                 sample.addAttributeValue(attributeValue.get());
                             } else {
                                 AttributeValue attributeValue1 = new AttributeValue().value(value);
+                                attributeValue1.setActive(true);
                                 AttributeValue savedAttVal = attributeValueRepository.save(attributeValue1);
                                 sample.addAttributeValue(savedAttVal);
-                                savedAttVal.setAttribute(sample);
                                 attributeValueRepository.save(savedAttVal);
                             }
                         }
