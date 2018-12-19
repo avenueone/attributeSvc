@@ -40,6 +40,9 @@ public class Attribute implements Serializable {
     @Field("active")
     private Boolean active;
 
+    @Field("lookup")
+    private Boolean hasLookup;
+
 
     @Field("template")
     private String template;

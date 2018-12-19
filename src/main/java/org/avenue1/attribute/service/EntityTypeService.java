@@ -1,6 +1,7 @@
 package org.avenue1.attribute.service;
 
 import org.avenue1.attribute.domain.EntityType;
+import org.avenue1.attribute.enums.EntityTypeEnum;
 import org.avenue1.attribute.repository.EntityTypeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,10 @@ public class EntityTypeService {
     public EntityType save(EntityType entityType) {
         log.debug("Request to save EntityType : {}", entityType);
         return entityTypeRepository.save(entityType);
+    }
+
+    public Optional<EntityType> findByEntityTypeEnum(EntityTypeEnum entityTypeEnum) {
+        return entityTypeRepository.findByType(entityTypeEnum);
     }
 
     /**

@@ -26,6 +26,7 @@ import java.util.Optional;
 /**
  * REST controller for managing AttributeValue.
  */
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class AttributeValueResource {

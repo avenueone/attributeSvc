@@ -3,10 +3,14 @@ package org.avenue1.attribute.web.rest;
 import org.avenue1.attribute.AttributeSvcApp;
 
 import org.avenue1.attribute.domain.Attribute;
+import org.avenue1.attribute.domain.EntityType;
+import org.avenue1.attribute.enums.EntityTypeEnum;
 import org.avenue1.attribute.repository.AttributeRepository;
+import org.avenue1.attribute.repository.EntityTypeRepository;
 import org.avenue1.attribute.service.AttributeService;
 import org.avenue1.attribute.web.rest.errors.ExceptionTranslator;
 
+import org.checkerframework.checker.units.qual.A;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +26,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 import static org.avenue1.attribute.web.rest.TestUtil.createFormattingConversionService;
@@ -43,7 +50,7 @@ public class AttributeResourceIntTest {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
-
+    private static List<EntityType> DEFAULT_ENTITY_TYPES = new ArrayList();
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
@@ -75,6 +82,9 @@ public class AttributeResourceIntTest {
     private AttributeService attributeService;
 
     @Autowired
+    private EntityTypeRepository entityTypeRepository;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -90,6 +100,7 @@ public class AttributeResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
+
         final AttributeResource attributeResource = new AttributeResource(attributeService);
         this.restAttributeMockMvc = MockMvcBuilders.standaloneSetup(attributeResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
@@ -105,6 +116,7 @@ public class AttributeResourceIntTest {
      * if they test an entity which requires the current entity.
      */
     public static Attribute createEntity() {
+
         Attribute attribute = new Attribute()
             .name(DEFAULT_NAME)
             .description(DEFAULT_DESCRIPTION)
@@ -121,7 +133,11 @@ public class AttributeResourceIntTest {
     @Before
     public void initTest() {
         attributeRepository.deleteAll();
+        EntityType mockEntityType = new EntityType().type(EntityTypeEnum.CALENDAR).description("Calendar");
+        entityTypeRepository.save(mockEntityType);
         attribute = createEntity();
+        DEFAULT_ENTITY_TYPES = entityTypeRepository.findAll();
+        attribute.getEntityTypes().addAll(DEFAULT_ENTITY_TYPES);
     }
 
 

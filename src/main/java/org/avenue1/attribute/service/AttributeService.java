@@ -1,6 +1,8 @@
 package org.avenue1.attribute.service;
 
 import org.avenue1.attribute.domain.Attribute;
+import org.avenue1.attribute.domain.EntityType;
+import org.avenue1.attribute.enums.EntityTypeEnum;
 import org.avenue1.attribute.repository.AttributeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -47,6 +51,26 @@ public class AttributeService {
         return attributeRepository.findAll(pageable);
     }
 
+
+    /**
+     * Get attributes for a given entity type
+     * @param type
+     * @param pageable
+     * @return
+     */
+    public Page<Attribute> findAllByEntityType(EntityType type, Pageable pageable) {
+        log.debug("Request to get all Attributes for type {}", type);
+        List<EntityType> types = new ArrayList();
+        types.add(type);
+        attributeRepository.findByEntityTypesIn(types);
+
+        return attributeRepository.findByEntityTypesIn(types,pageable);
+    }
+
+    public Page<Attribute> findAllByEntityTypes(List<EntityType> types, Pageable pageable) {
+        log.debug("Request to get all Attributes for list of entity types");
+        return attributeRepository.findByEntityTypesIn(types,pageable);
+    }
 
     /**
      * Get one attribute by id.

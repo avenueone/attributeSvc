@@ -26,42 +26,48 @@ public class DevStartup extends BaseStartup {
     @PostConstruct
     private void addSampleData() {
         log.debug("Checking for base dev data...");
-        for (EntityTypeEnum type: EntityTypeEnum.values()) {
-            List<EntityTypeEnum> types = new ArrayList<>();
-            types.add(type);
-            List<Attribute> allByType = attributeRepository.findAllByEntityTypes(types);
+        for (EntityTypeEnum type : EntityTypeEnum.values()) {
 
-            if ( allByType.isEmpty() ) {
-                Optional<EntityType> byType = entityTypeRepository.findByType(type);
-                if ( byType.isPresent()) {
+            Optional<EntityType> entityType = entityTypeRepository.findByType(type);
+            if (entityType.isPresent()) {
+                List<EntityType> singleTypeList = new ArrayList<>();
+                singleTypeList.add(entityType.get());
+                List<Attribute> allByType = attributeRepository.findByEntityTypesIn(singleTypeList);
 
-                    Attribute sample = new Attribute().active(true).hasValidValues(true).description("auto created")
-                        .name("test " + type.name().toLowerCase()).dataType(DataTypeEnum.STRING)
-                        .mandatory(true).addEntityType(byType.get());
-                    sample = attributeRepository.save(sample);
+                if (allByType.isEmpty()) {
+                    Optional<EntityType> byType = entityTypeRepository.findByType(type);
+                    if (byType.isPresent()) {
 
-                    for ( int i = 0; i < 10; i++ ){
-                        String value = "attr val " + i;
-                        Optional<AttributeValue> attributeValue = attributeValueRepository.findByAttributeAndValue(sample,value);
-                        if ( attributeValue.isPresent()) {
-                            sample.addAttributeValue(attributeValue.get());
-                        } else {
-                            AttributeValue attributeValue1 = new AttributeValue().value(value);
-                            AttributeValue savedAttVal = attributeValueRepository.save(attributeValue1);
-                            sample.addAttributeValue(savedAttVal);
-                            savedAttVal.setAttribute(sample);
-                            attributeValueRepository.save(savedAttVal);
+                        Attribute sample = new Attribute().active(true).hasValidValues(true).description("auto created")
+                            .name("test " + type.name().toLowerCase()).dataType(DataTypeEnum.STRING)
+                            .mandatory(true).addEntityType(byType.get());
+                        sample = attributeRepository.save(sample);
+
+                        for (int i = 0; i < 10; i++) {
+                            String value = "attr val " + i;
+                            Optional<AttributeValue> attributeValue = attributeValueRepository.findByAttributeAndValue(sample, value);
+                            if (attributeValue.isPresent()) {
+                                sample.addAttributeValue(attributeValue.get());
+                            } else {
+                                AttributeValue attributeValue1 = new AttributeValue().value(value);
+                                AttributeValue savedAttVal = attributeValueRepository.save(attributeValue1);
+                                sample.addAttributeValue(savedAttVal);
+                                savedAttVal.setAttribute(sample);
+                                attributeValueRepository.save(savedAttVal);
+                            }
                         }
+
+                        attributeRepository.save(sample);
+                    } else {
+                        log.error("Entity type dbref is not found {}", type);
                     }
 
-                    attributeRepository.save(sample);
                 } else {
-                    log.error("Entity type dbref is not found {}", type);
+                    log.debug("{} attributes for {}", allByType.size(), type.name());
                 }
-
-            }else {
-                log.debug("{} attributes for {}", allByType.size(), type.name());
+            } else {
             }
+
         }
     }
 
