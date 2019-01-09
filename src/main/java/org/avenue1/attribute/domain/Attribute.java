@@ -31,6 +31,17 @@ public class Attribute implements Serializable {
     @Field("name")
     private String name;
 
+    /**
+     * Should match a user-based attribute against a component attribute
+     * e.g. Attribute [name] = 'Banner', value = [shoppers drug mart] is stored against EntityType [Campaign]
+     * if user does not have a matching banner attribute with same value then access to those campaigns
+     * flagged with that attribute will not be visible
+     * e.g. Attribute [name] = 'Banner', value = [shoppers drug mart] is stored against EntityType [User]
+     */
+    @NotNull
+    @Field("accessControl")
+    private Boolean accessControl;
+
     @NotNull
     @Field("description")
     private String description;
@@ -117,6 +128,22 @@ public class Attribute implements Serializable {
     public Attribute dataType(DataTypeEnum dataType) {
         this.dataType = dataType;
         return this;
+    }
+
+    public Boolean getAccessControl() {
+        return accessControl;
+    }
+
+    public void setAccessControl(Boolean accessControl) {
+        this.accessControl = accessControl;
+    }
+
+    public Boolean getHasLookup() {
+        return hasLookup;
+    }
+
+    public void setHasLookup(Boolean hasLookup) {
+        this.hasLookup = hasLookup;
     }
 
     public void setDataType(DataTypeEnum dataType) {
